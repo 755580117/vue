@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css" media="screen">
+        .content{
+            width: 200px;
+            height: 200px;
+        }
+        .content div{
+            width: 200px;
+            height: 200px;
+            display: none;
+            border: 1px solid #ccc;
+        }
+        .active{
+            background: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="wrap">
+        <div class="btn">
+            <button class='active'>1</button>
+            <button>2</button>
+            <button>3</button>
+        </div>
+        <div class="content">
+            <div style='display: block'>111</div>
+            <div>222</div>
+            <div>333</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+
+         class Table{
+            constructor(){
+                this.wrap = document.querySelector('#wrap');        // 获取大盒子
+                this.btnArr = this.wrap.querySelectorAll('button'); // 获取所有按钮
+                this.content = this.wrap.querySelector('.content'); // 获取装三个盒子的DIV
+                this.boxArr = this.content.querySelectorAll('div'); // 获取三个div
+
+                this.init();  // 调用 init
+            }
+            init(){
+                var _this = this;  // 保存一个 this
+                this.index = null;
+                this.btnArr.forEach(function(v,i){
+                    v.onclick = function(){         // 循环所有按钮
+                        //console.log(i)            // 点击时的下标
+                        //console.log(this)
+                        _this.index = i;            // 保存当前按钮的下标
+                        _this.change(_this.index)   // 把获取按钮的下标 传入  change函数
+                    }
+                })
+            }
+            change(obj){    // obj 接收传过来的下标
+                var _this = this;   // 保存一个 this
+                //console.log(obj)  //   打印 obj  为 点击时的下标
+                this.boxArr.forEach(function(v,i){   // 遍历所有 div
+                    //console.log( _this.boxArr[i] )   // <div>111</div>  <div>222</div>   <div>333</div>
+                    _this.boxArr[i].style.display = 'none';     //让所有div 都隐藏
+                    _this.btnArr[i].className = '';             // 让所有按钮的 类名 为空
+                })
+                this.boxArr[obj].style.display = 'block';       // 第 让获取的下标  的元素为显示
+                this.btnArr[obj].className = 'active';          // 让第 接收过来的下下表的 按钮加类名
+
+            }
+
+
+         }
+
+         table = new Table()
+
+    </script>
+
+</body>
+</html>
